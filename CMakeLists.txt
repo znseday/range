@@ -8,8 +8,8 @@ else()
 	project(range VERSION 0.0.$ENV{TRAVIS_BUILD_NUMBER})
 endif()
 
-
-#include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
+# There is something wrong here
+include(${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
 conan_basic_setup()
 
 #find_package(Threads REQUIRED)
