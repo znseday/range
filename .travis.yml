@@ -4,8 +4,8 @@ compiler: clang
 
 install:
 # Install conan
-  - pip install --upgrade pip
-  - pip install conan
+  #- pip install --upgrade pip
+  - pip install --user conan
 # Automatic detection of your arch, compiler, etc.
   - conan user
 
