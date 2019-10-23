@@ -54,7 +54,7 @@ target_link_libraries(range
 target_link_libraries(my_tests
     ${Boost_LIBRARIES}
     my_aux
-	${CONAN_LIBS}
+#   ${CONAN_LIBS}
 )
 
 install(TARGETS range RUNTIME DESTINATION bin)
