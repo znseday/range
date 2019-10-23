@@ -1,11 +1,20 @@
 dist: xenial
 language: cpp
 compiler: clang
+
+install:
+# Install conan
+  - pip install conan
+# Automatic detection of your arch, compiler, etc.
+  - conan user
+
 addons:
   apt:
     packages:
     - libboost-test-dev
 script:
+# Download dependencies and build project
+- conan install .
 - cmake .
 - cmake --build .
 - cmake --build . --target test
