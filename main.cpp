@@ -11,7 +11,7 @@ using namespace std;
 
 int main()
 {
-	// This example from our class isn't compiled !!!!!
+	// This example from our class isn't compiled on VS 2019 !!!!!
 	//const std::string s{ "hello" };
 	//ranges::for_each(s | ranges::view::filter([](auto c) { return c == 'l'; }), [](auto i) { std::cout << i << std::endl; });
 
@@ -85,7 +85,8 @@ int main()
 	auto LambdaFilterAny = [&ips](BYTE byte)
 	{
 		for (auto it = ips.cbegin(); it != ips.cend(); ++it)
-			if (std::any_of((*it).cbegin(), (*it).cend(), [byte](BYTE val) {return val == byte; }))
+			if (ranges::any_of( (*it), [byte](BYTE val) {return val == byte; }))
+			//if (std::any_of((*it).cbegin(), (*it).cend(), [byte](BYTE val) {return val == byte; }))
 				std::cout << *it;
 	};
 	LambdaFilterAny((BYTE)46);
