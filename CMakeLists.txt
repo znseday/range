@@ -40,9 +40,14 @@ else()
 		COMPILE_OPTIONS "-Wpedantic;-Wall;-Wextra")
 endif()
 
+target_include_directories(my_tests
+   PUBLIC "${Boost_INCLUDE_DIR}"
+   PRIVATE "${CMAKE_MODULE_PATH}/include"
+)
+
 set_target_properties(my_tests PROPERTIES
     COMPILE_DEFINITIONS BOOST_TEST_DYN_LINK
-    INCLUDE_DIRECTORIES ${Boost_INCLUDE_DIR}
+   # INCLUDE_DIRECTORIES ${Boost_INCLUDE_DIR}
 )
 
 target_link_libraries(range
@@ -73,4 +78,9 @@ include(CPack)
 
 enable_testing()
 
-add_test(my_tests_ my_tests)
+
+if(WIN32 OR WIN64)
+	add_test(my_tests_ my_tests)
+else()
+	add_test(my_tests_ bin/my_tests)
+endif()
