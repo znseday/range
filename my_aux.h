@@ -4,6 +4,8 @@
 #include <string>
 #include <vector>
 
+// Added this cos Travis doesn't work without it in this file (doesn't see "ranges::equal")
+// But in VS it workd without "#include" (it's logical cos "ranges::equal" is in a template)
 #include <range/v3/all.hpp>
 
 int MyVersion();
