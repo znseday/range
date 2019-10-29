@@ -40,6 +40,7 @@ else()
 		COMPILE_OPTIONS "-Wpedantic;-Wall;-Wextra")
 endif()
 
+# Added this cos "set_target_properties" doesn't work with two INCLUDE_DIRECTORIES (((
 target_include_directories(my_tests
    PUBLIC "${Boost_INCLUDE_DIR}"
    PRIVATE "${CMAKE_MODULE_PATH}/include"
