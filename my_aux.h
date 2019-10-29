@@ -12,9 +12,13 @@ using BYTE = unsigned char;
 
 using ipType = std::vector<BYTE>;
 
+[[deprecated("It's for an old version when boost tests didn't work")]]
 void MyRangeTest(std::vector<int>& v); // for debugging
 
-std::ostream& operator<<(std::ostream& s, const ipType& ob);
+namespace std // "namespace std" added, but is it ok to do that???
+{
+	std::ostream& operator<<(std::ostream& s, const ipType& ob);
+}
 
 ipType ConvertLineToIP(const std::string &str);
 
@@ -25,6 +29,6 @@ void FilterByBytes(std::ostream& s, ipType ip, Args... args)
 {
 	ipType a = { (args)... }; 
 
-	if (std::equal(a.cbegin(), a.cend(), ip.cbegin()))
+	if (ranges::equal(a, ip.cbegin())) // instead of std::equal
 		s << ip;
 }
