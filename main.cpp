@@ -49,7 +49,7 @@ int main()
 	ranges::sort(ips, greater<ipType>()); // lex sort
 
 	ranges::copy(ips, ranges::ostream_iterator<ipType>(cout));// Warning C26444	Avoid unnamed objects with custom construction and destruction (es.84). 
-	// This warning appears even for simple int. What to do with that?
+	// This warning appears even for simple int (see tests). What to do with that?
 
 	//for (auto it = ips.cbegin(); it != ips.cend(); ++it) // Now, it's used "ranges::copy" instead
 	//	std::cout << *it;
