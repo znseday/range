@@ -4,6 +4,8 @@
 #include <string>
 #include <vector>
 
+#include <range/v3/all.hpp>
+
 int MyVersion();
 
 // !!! I intentionally use "std::" because it's a header !!!
