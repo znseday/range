@@ -23,12 +23,15 @@ void MyRangeTest(vector<int>& v)
 	ranges::sort(v);
 }
 
-ostream& operator<<(ostream& s, const ipType& ob)
+namespace std // "namespace std" added, but is it ok to do that???
 {
-	for (int i = 0; i < 4; i++)
-		s << (int)ob[i] << ((i < 3) ? '.' : '\n');
+	ostream& operator<<(ostream& s, const ipType& ob)
+	{
+		for (int i = 0; i < 4; i++)
+			s << (int)ob[i] << ((i < 3) ? '.' : '\n');
 
-	return s;
+		return s;
+	}
 }
 
 ipType ConvertLineToIP(const std::string& str)
