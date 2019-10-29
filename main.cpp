@@ -4,54 +4,55 @@
 #include <iterator>
 #include <fstream>
 #include <algorithm>
+#include <string>
 
 #include "my_aux.h"
 
 using namespace std;
 
+//using namespace ranges;
+
 int main()
 {
-	// This example from our class isn't compiled on VS 2019 !!!!!
-	//const std::string s{ "hello" };
-	//ranges::for_each(s | ranges::view::filter([](auto c) { return c == 'l'; }), [](auto i) { std::cout << i << std::endl; });
+	// This example from our lesson works ONLY on Range 0.5 (0.4 and 0.9 don't work on VS 2019!)
+	// const std::string s{ "hello" };
+	// ranges::for_each(s | ranges::view::filter([](auto c) { return c == 'l'; }), [](auto i) { std::cout << i << std::endl; });
 
 	vector<ipType> ips;
+	string line;
 
 #if (defined WIN32) || (defined WIN64)
-	vector<int> tv = { 2, 0, 1 };
-	//ranges::copy(tv, ostream_iterator<int>(cout));  // doesn't work even for <int>. Why ???
-	std::copy(tv.cbegin(), tv.cend(), ostream_iterator<int>(cout));
-	cout << endl;
-	ranges::sort(tv);  // Just to be sure that Range is visible and works
-	std::copy(tv.cbegin(), tv.cend(), ostream_iterator<int>(cout));
-	cout << endl;
 
 	std::cout << "Home work, version: " << MyVersion() << std::endl << std::endl; // for debugging
 
-	std::istream & i_stream = std::ifstream("ip_filter.tsv"); // doesn't work if "/permissive-" is included as an option(( Why???
+	//std::istream& i_stream = std::ifstream("ip_filter.tsv"); // doesn't work if "/permissive-" is included as an option(( Why???
+
+	std::ifstream i_stream("ip_filter.tsv"); //  "/permissive-" forced me to write it like this
 	if (!i_stream)
 	{
 		std::cout << "My error: the input file not found" << std::endl;
 		exit(0);
 	}
-#else
-	istream& i_stream = cin;
-#endif
 
-	std::string line;
 	while (getline(i_stream, line))
 		ips.push_back(ConvertLineToIP(line));
 
-	ranges::sort(ips, std::greater<ipType>()); // lex sort
+#else
+	istream& i_stream = cin;
+	while (getline(cin, line))
+		ips.push_back(ConvertLineToIP(line));
+#endif
 
-	//ranges::copy(ips, std::ostream_iterator<ipType>(std::cout));                       // isn't compiled !
-	//ranges::copy(ips.cbegin(), ips.cend(), std::ostream_iterator<ipType>(std::cout));  // isn't compiled !
+	//while (getline(i_stream, line))       // This universal version doesn't work any more (((
+	//	ips.push_back(ConvertLineToIP(line));
 
-	for (auto it = ips.cbegin(); it != ips.cend(); ++it) // Added, cos std::copy doesn't work any more !
-		std::cout << *it;
+	ranges::sort(ips, greater<ipType>()); // lex sort
 
-	//copy(ips.cbegin(), ips.cend(), ostream_iterator<ipType>(cout)); // How to make it work?
+	ranges::copy(ips, ranges::ostream_iterator<ipType>(cout));// Warning C26444	Avoid unnamed objects with custom construction and destruction (es.84). 
+	// This warning appears even for simple int. What to do with that?
 
+	//for (auto it = ips.cbegin(); it != ips.cend(); ++it) // Now, it's used "ranges::copy" instead
+	//	std::cout << *it;
 
 	auto LambdaFilterByBytes = [&ips](auto... params)
 	{
@@ -86,7 +87,6 @@ int main()
 	{
 		for (auto it = ips.cbegin(); it != ips.cend(); ++it)
 			if (ranges::any_of( (*it), [byte](BYTE val) {return val == byte; }))
-			//if (std::any_of((*it).cbegin(), (*it).cend(), [byte](BYTE val) {return val == byte; }))
 				std::cout << *it;
 	};
 	LambdaFilterAny((BYTE)46);
